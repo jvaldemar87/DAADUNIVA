@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         daadLogo = findViewById(R.id.image_daad);
         mapa = findViewById(R.id.image_mapa);
         buttonPrograma = findViewById(R.id.button_programa);
-        contentProg = findViewById(R.id.fragment_programa);
+        //contentProg = findViewById(R.id.fragment_programa);
 
         fragments.add(new ItemViewFragment(0,"",new Programa()));
 
