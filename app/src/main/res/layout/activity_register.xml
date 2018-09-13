@@ -23,30 +23,35 @@
             android:textSize="25sp"
             android:layout_gravity="center"/>
         <EditText
+            android:id="@+id/editTextUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:hint="Nombre"
             android:inputType="textPersonName"/>
         <EditText
+            android:id="@+id/editTextApellidoP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:hint="Apellido Paterno"
             android:inputType="textPersonName"/>
         <EditText
+            android:id="@+id/editTextApellidoM"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:hint="Apellido Materno"
             android:inputType="textPersonName"/>
         <EditText
+            android:id="@+id/editTextMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:hint="Correo"
             android:inputType="textPersonName"/>
         <EditText
+            android:id="@+id/editTextPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -54,6 +59,7 @@
             android:inputType="textPersonName"/>
 
         <Button
+            android:id="@+id/buttonRegistro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
