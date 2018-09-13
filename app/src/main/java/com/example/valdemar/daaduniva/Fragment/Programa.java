@@ -1,6 +1,7 @@
 package com.example.valdemar.daaduniva.Fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
