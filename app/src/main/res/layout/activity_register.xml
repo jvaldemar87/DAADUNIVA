@@ -23,7 +23,7 @@
             android:textSize="25sp"
             android:layout_gravity="center"/>
         <EditText
-            android:id="@+id/editTextUser"
+            android:id="@+id/editTextNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -49,14 +49,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:hint="Correo"
-            android:inputType="textPersonName"/>
+            android:inputType="textEmailAddress"/>
         <EditText
             android:id="@+id/editTextPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:hint="Contraseña"
-            android:inputType="textPersonName"/>
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/buttonRegistro"

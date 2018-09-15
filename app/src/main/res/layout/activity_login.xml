@@ -19,11 +19,11 @@
             android:src="@drawable/logo"
             android:layout_gravity="center"/>
         <EditText
-            android:id="@+id/editTextUser"
+            android:id="@+id/editTextMail"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario"
+            android:hint="Correo"
             android:inputType="textEmailAddress"/>
         <EditText
             android:id="@+id/editTextPass"
@@ -33,13 +33,14 @@
             android:hint="Contraseña"
             android:inputType="textPassword"/>
         <Button
+            android:id="@+id/buttonLogin"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ingresar"
             android:layout_gravity="center"/>
         <TextView
-            android:id="@+id/tv_register"
+            android:id="@+id/textViewRegister"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

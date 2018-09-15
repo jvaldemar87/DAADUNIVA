@@ -5,18 +5,22 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.valdemar.daaduniva.Fragment.Programa;
 import com.example.valdemar.daaduniva.Models.ItemViewFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ProgramaActivity extends AppCompatActivity {
     Context context = this;
     Activity activity = this;
 
-    FragmentManager fm;
+    android.support.v4.app.FragmentManager fm;
     ArrayList<ItemViewFragment> fragments = new ArrayList<>();
     FrameLayout content;
     int intView = -1;
