@@ -2,8 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@color/prinicipal_blue</color>
+
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="grayTrans">#7c8e8e8e</color>
+
+    <color name="prinicipal_blue">#2c92c4</color>
+    <color name="prinicipal_orange">#fcb204</color>
 </resources>

@@ -4,27 +4,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/imageBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
             android:src="@drawable/back"
-            android:padding="5dp"
+            android:padding="15dp"
             android:layout_gravity="center"/>
+
         <TextView
             android:id="@+id/text_title_id"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="LISTA DE PROGRAMA"
-            android:textSize="30dp"
+            android:textSize="18dp"
             android:gravity="center"/>
-    </LinearLayout>
+    </RelativeLayout>
     <View
         android:layout_above="@+id/view_menu_id"
         android:background="@color/black"

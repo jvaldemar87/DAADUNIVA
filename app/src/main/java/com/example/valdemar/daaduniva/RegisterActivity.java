@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -34,6 +35,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         buttonRegistro = findViewById(R.id.buttonRegistro);
 
         buttonRegistro.setOnClickListener(this);
+
+        ImageView imageBack = findViewById(R.id.imageBack);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -79,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 "correo:" +correo+"\n" +
                 "contraseña:" +contrasena, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
-        RegisterActivity.this.startActivity(intent);
+        startActivity(intent);
+        finish();
     }
 }

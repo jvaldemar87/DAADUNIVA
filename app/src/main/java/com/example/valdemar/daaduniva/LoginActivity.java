@@ -22,8 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView textViewBotonRegistro;
-    Button buttonLogin;
+    //TextView textViewBotonRegistro;
+    Button buttonLogin, buttonRegister;
     EditText editTextMail,editTextPass;
 
 
@@ -32,20 +32,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        textViewBotonRegistro = findViewById(R.id.textViewRegister);
+        buttonRegister = findViewById(R.id.buttonRegister);
         buttonLogin = findViewById(R.id.buttonLogin);
         editTextMail = findViewById(R.id.editTextMail);
         editTextPass = findViewById(R.id.editTextPass);
 
         buttonLogin.setOnClickListener(this);
-        textViewBotonRegistro.setOnClickListener(this);
+        buttonRegister.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.textViewRegister:
+            case R.id.buttonRegister:
                 Intent intentRegister = new Intent(this,RegisterActivity.class);
                 LoginActivity.this.startActivity(intentRegister);
                 break;

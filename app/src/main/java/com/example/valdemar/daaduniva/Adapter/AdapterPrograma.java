@@ -51,6 +51,13 @@ public class AdapterPrograma extends RecyclerView.Adapter<AdapterPrograma.ViewHo
         holder.fecha.setText(item.getFecha());
         holder.eventoNombre.setText(item.getNombre());
         holder.eventoDescribe.setText(item.getDescripcion());
+
+        holder.contend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClick.OnCLickPrograma(item, position);
+            }
+        });
     }
 
     @Override

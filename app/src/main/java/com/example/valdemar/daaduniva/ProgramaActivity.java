@@ -3,20 +3,23 @@ package com.example.valdemar.daaduniva;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.valdemar.daaduniva.Adapter.AdapterPrograma;
 import com.example.valdemar.daaduniva.Fragment.Programa;
+import com.example.valdemar.daaduniva.Models.ItemPrograma;
 import com.example.valdemar.daaduniva.Models.ItemViewFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ProgramaActivity extends AppCompatActivity {
+public class ProgramaActivity extends AppCompatActivity implements AdapterPrograma.OnClick{
     Context context = this;
     Activity activity = this;
 
@@ -66,5 +69,24 @@ public class ProgramaActivity extends AppCompatActivity {
                 Toast.makeText(context, "onClickDescribe", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void OnCLickPrograma(ItemPrograma item, int position) {
+        setEvent(item);
+        Toast.makeText(context, "Evento agendado", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void setEvent(ItemPrograma item){
+        Calendar cal = Calendar.getInstance();
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", cal.getTimeInMillis()+60*60*1000);
+        intent.putExtra("allDay", true);
+        intent.putExtra("rrule", "FREQ=YEARLY");
+        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*2000);
+        intent.putExtra("title", item.getNombre());
+        startActivity(intent);
     }
 }
