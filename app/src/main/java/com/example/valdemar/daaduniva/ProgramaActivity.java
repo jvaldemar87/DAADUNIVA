@@ -78,6 +78,16 @@ public class ProgramaActivity extends AppCompatActivity implements AdapterProgra
 
     }
 
+    public void OnclickDescipcion(ItemPrograma item, int position){
+        getDocument(item);
+
+    }
+
+    private void getDocument(ItemPrograma item) {
+        //item.getId();
+        Toast.makeText(context, "funcion para descargar PDF: "+item.getId(), Toast.LENGTH_SHORT).show();
+    }
+
     private void setEvent(ItemPrograma item){
         Calendar cal = Calendar.getInstance();
         Intent intent = new Intent(Intent.ACTION_EDIT);

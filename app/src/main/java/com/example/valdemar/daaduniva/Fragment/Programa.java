@@ -52,7 +52,7 @@ public class Programa extends android.support.v4.app.Fragment implements View.On
     private void BuildRecyclerview() {
         arrayList.clear();
         arrayList.add(new ItemPrograma("0","27 / 09 / 2018","09:30","11:00","Registro","descripcion de cada evento"));
-        arrayList.add(new ItemPrograma("0","27 / 09 / 2018","09:30","11:00","El desarrollo territorial y el uso de energías renovables","Conferencia ALUMNI 1: Gerardo Lara Gómez (SEMADET)"));
+        arrayList.add(new ItemPrograma("1","27 / 09 / 2018","09:30","11:00","El desarrollo territorial y el uso de energías renovables","Conferencia ALUMNI 1: Gerardo Lara Gómez (SEMADET)"));
         adapter = new AdapterPrograma(context,activity,arrayList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
