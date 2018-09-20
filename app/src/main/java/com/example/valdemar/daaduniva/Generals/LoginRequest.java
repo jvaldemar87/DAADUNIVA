@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginRequest extends StringRequest {
-    static String url = "http://direccionweb.com/login.php";
+    static String url = Constantes.BASE_URL+"login";
     private static final String LOGIN_REQUEST_URL = url;
     private Map<String,String> params;
     public LoginRequest(String correo, String contrasena, Response.Listener<String> listener){

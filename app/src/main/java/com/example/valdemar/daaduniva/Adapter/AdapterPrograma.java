@@ -35,6 +35,8 @@ public class AdapterPrograma extends RecyclerView.Adapter<AdapterPrograma.ViewHo
 
     public interface OnClick{
         void OnCLickPrograma(ItemPrograma item, int position);
+
+        void OnclickDescipcion(ItemPrograma item, int position);
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,6 +60,12 @@ public class AdapterPrograma extends RecyclerView.Adapter<AdapterPrograma.ViewHo
                 onClick.OnCLickPrograma(item, position);
             }
         });
+        holder.documents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClick.OnclickDescipcion(item, position);
+            }
+        });
     }
 
     @Override
@@ -66,13 +74,14 @@ public class AdapterPrograma extends RecyclerView.Adapter<AdapterPrograma.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        View contend;
+        View contend, documents;
         TextView horaIni, horaFin, eventoNombre, eventoDescribe,fecha;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            contend = itemView.findViewById(R.id.view_content_id);
+            contend = itemView.findViewById(R.id.linearFecha);
+            documents = itemView.findViewById(R.id.linearDescripcion);
             fecha = itemView.findViewById(R.id.date_id);
             horaIni = itemView.findViewById(R.id.schedule_begin);
             horaFin = itemView.findViewById(R.id.schedule_end);

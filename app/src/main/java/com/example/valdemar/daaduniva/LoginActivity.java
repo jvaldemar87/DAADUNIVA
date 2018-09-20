@@ -22,7 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    //TextView textViewBotonRegistro;
+    TextView textViewBotonRegistro;
     Button buttonLogin, buttonRegister;
     EditText editTextMail,editTextPass;
 
