@@ -19,8 +19,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.valdemar.daaduniva.Adapter.AdapterPrograma;
 import com.example.valdemar.daaduniva.Generals.Constantes;
+import com.example.valdemar.daaduniva.Models.BaseRespond;
 import com.example.valdemar.daaduniva.Models.ItemPrograma;
+import com.example.valdemar.daaduniva.Models.Record;
 import com.example.valdemar.daaduniva.R;
+import com.example.valdemar.daaduniva.Services.ApiServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +31,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class Programa extends android.support.v4.app.Fragment implements View.OnClickListener {
     Context context;
@@ -58,7 +65,9 @@ public class Programa extends android.support.v4.app.Fragment implements View.On
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        BuildRecyclerview();
+        //BuildRecyclerview();
+
+        ServerLogin();
     }
 
     private void BuildRecyclerview() {
@@ -131,5 +140,44 @@ public class Programa extends android.support.v4.app.Fragment implements View.On
                 activity.onBackPressed();
                 break;
         }
+    }
+
+    private void buildRecyclerView(List<Record> records){
+        arrayList.clear();
+
+        for (Record record: records){
+            arrayList.add(new ItemPrograma(
+                    record.id,
+                    record.date,
+                    record.start_hour,
+                    record.end_hour,
+                    record.name,
+                    record.description,
+                    record.pdf
+            ));
+        }
+
+        adapter = new AdapterPrograma(context, activity, arrayList);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void ServerLogin(){
+        ApiServices.event service = ApiServices.getRetrofitInstance().create(ApiServices.event.class);
+        Call<List<Record>> call = service.events();
+
+        call.enqueue(new Callback<List<Record>>() {
+            @Override
+            public void onResponse(Call<List<Record>> call, retrofit2.Response<List<Record>> response) {
+                if (response.body().size() > 0)
+                    buildRecyclerView(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Record>>  call, Throwable t) {
+
+            }
+        });
     }
 }

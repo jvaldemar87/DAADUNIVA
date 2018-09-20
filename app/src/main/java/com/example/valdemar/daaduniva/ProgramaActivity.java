@@ -15,9 +15,12 @@ import com.example.valdemar.daaduniva.Fragment.Programa;
 import com.example.valdemar.daaduniva.Models.ItemPrograma;
 import com.example.valdemar.daaduniva.Models.ItemViewFragment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ProgramaActivity extends AppCompatActivity implements AdapterPrograma.OnClick{
     Context context = this;
@@ -74,8 +77,6 @@ public class ProgramaActivity extends AppCompatActivity implements AdapterProgra
     @Override
     public void OnCLickPrograma(ItemPrograma item, int position) {
         setEvent(item);
-        Toast.makeText(context, "Evento agendado", Toast.LENGTH_SHORT).show();
-
     }
 
     public void OnclickDescipcion(ItemPrograma item, int position){
@@ -88,20 +89,34 @@ public class ProgramaActivity extends AppCompatActivity implements AdapterProgra
         //item.getId();
         Toast.makeText(context, "funcion para descargar PDF: "+item.getId(), Toast.LENGTH_SHORT).show();
 
-        Uri uri = Uri.parse(item.getNombre());
+        Uri uri = Uri.parse(item.getPdf());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
 
     private void setEvent(ItemPrograma item){
-        Calendar cal = Calendar.getInstance();
-        Intent intent = new Intent(Intent.ACTION_EDIT);
-        intent.setType("vnd.android.cursor.item/event");
-        intent.putExtra("beginTime", cal.getTimeInMillis()+60*60*1000);
-        intent.putExtra("allDay", true);
-        intent.putExtra("rrule", "FREQ=YEARLY");
-        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*2000);
-        intent.putExtra("title", item.getNombre());
-        startActivity(intent);
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date dateInit = null;
+            Date dateFin = null;
+
+            dateInit = dateFormat.parse(item.getFecha() + " " + item.getHoraIni());
+            dateFin = dateFormat.parse(item.getFecha() + " " + item.getHoraFin());
+
+            long secondsInit = dateInit.getTime();
+            long secondsFin = dateFin.getTime();
+
+            Intent intent = new Intent(Intent.ACTION_EDIT);
+            intent.setType("vnd.android.cursor.item/event");
+            intent.putExtra("beginTime", secondsInit);
+            intent.putExtra("rrule", "FREQ=YEARLY");
+            intent.putExtra("endTime", secondsFin);
+            intent.putExtra("title", item.getNombre());
+            startActivity(intent);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "No se puede comñlatar la acción.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

@@ -9,4 +9,5 @@ public class Record implements Serializable {
     public String end_hour;
     public String name;
     public String description;
+    public String pdf;
 }

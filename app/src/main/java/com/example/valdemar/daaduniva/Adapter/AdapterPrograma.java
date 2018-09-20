@@ -11,7 +11,11 @@ import android.widget.TextView;
 import com.example.valdemar.daaduniva.Models.ItemPrograma;
 import com.example.valdemar.daaduniva.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AdapterPrograma extends RecyclerView.Adapter<AdapterPrograma.ViewHolder>{
     Context context;
@@ -47,24 +51,44 @@ public class AdapterPrograma extends RecyclerView.Adapter<AdapterPrograma.ViewHo
     public void onBindViewHolder(ViewHolder holder,final  int position){
         final ItemPrograma item = items.get(position);
 
-        holder.horaIni.setText(item.getHoraIni());
-        holder.horaFin.setText(item.getHoraFin());
-        holder.fecha.setText(item.getFecha());
-        holder.eventoNombre.setText(item.getNombre());
-        holder.eventoDescribe.setText(item.getDescripcion());
 
-        holder.contend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClick.OnCLickPrograma(item, position);
-            }
-        });
-        holder.documents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClick.OnclickDescipcion(item, position);
-            }
-        });
+        try {
+            String NEW_FORMAT = "dd/MM/yyyy";
+            String OLD_FORMAT = "yyyy-MM-dd";
+            SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+            Date d = sdf.parse(item.getFecha());
+            sdf.applyPattern(NEW_FORMAT);
+            holder.fecha.setText(sdf.format(d));
+
+            NEW_FORMAT = "HH:mm";
+            OLD_FORMAT = "HH:mm:ss";
+            sdf.applyPattern(OLD_FORMAT);
+            Date timeInit = sdf.parse(item.getHoraIni());
+            Date timeFin = sdf.parse(item.getHoraFin());
+            sdf.applyPattern(NEW_FORMAT);
+            holder.horaIni.setText(sdf.format(timeInit));
+            holder.horaFin.setText(sdf.format(timeFin));
+
+            holder.eventoNombre.setText(item.getNombre());
+            holder.eventoDescribe.setText(item.getDescripcion());
+
+            holder.contend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClick.OnCLickPrograma(item, position);
+                }
+            });
+            holder.documents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClick.OnclickDescipcion(item, position);
+                }
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override

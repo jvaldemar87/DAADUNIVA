@@ -2,6 +2,9 @@ package com.example.valdemar.daaduniva.Services;
 
 import com.example.valdemar.daaduniva.Generals.Constantes;
 import com.example.valdemar.daaduniva.Models.BaseRespond;
+import com.example.valdemar.daaduniva.Models.Record;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -39,10 +42,7 @@ public class ApiServices {
         );
 
         @GET("events/")
-        Call<BaseRespond> events(
-                @Query("event_id") int event_id,
-                @Query("email") String email
-        );
+        Call<List<Record>> events();
     }
 
     public static Retrofit getRetrofitInstance(){
