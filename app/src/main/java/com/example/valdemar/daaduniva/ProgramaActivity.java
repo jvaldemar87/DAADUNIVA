@@ -1,11 +1,11 @@
 package com.example.valdemar.daaduniva;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -81,11 +81,16 @@ public class ProgramaActivity extends AppCompatActivity implements AdapterProgra
     public void OnclickDescipcion(ItemPrograma item, int position){
         getDocument(item);
 
+
     }
 
     private void getDocument(ItemPrograma item) {
         //item.getId();
         Toast.makeText(context, "funcion para descargar PDF: "+item.getId(), Toast.LENGTH_SHORT).show();
+
+        Uri uri = Uri.parse(item.getNombre());
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     private void setEvent(ItemPrograma item){

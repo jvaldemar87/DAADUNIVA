@@ -2,24 +2,18 @@ package com.example.valdemar.daaduniva;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.example.valdemar.daaduniva.Generals.LoginRequest;
+import com.example.valdemar.daaduniva.Models.BaseRespond;
+import com.example.valdemar.daaduniva.Services.ApiServices;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     TextView textViewBotonRegistro;
@@ -82,4 +76,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+    private void ServerLogin(String email, String password){
+        ApiServices.user service = ApiServices.getRetrofitInstance().create(ApiServices.user.class);
+        Call<BaseRespond> call = service.login(email, password);
+
+        call.enqueue(new Callback<BaseRespond>() {
+            @Override
+            public void onResponse(Call<BaseRespond> call, retrofit2.Response<BaseRespond> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseRespond>  call, Throwable t) {
+
+            }
+        });
+    }
+}
 }

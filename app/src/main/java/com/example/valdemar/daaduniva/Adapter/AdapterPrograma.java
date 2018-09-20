@@ -35,7 +35,6 @@ public class AdapterPrograma extends RecyclerView.Adapter<AdapterPrograma.ViewHo
 
     public interface OnClick{
         void OnCLickPrograma(ItemPrograma item, int position);
-
         void OnclickDescipcion(ItemPrograma item, int position);
     }
     @Override
