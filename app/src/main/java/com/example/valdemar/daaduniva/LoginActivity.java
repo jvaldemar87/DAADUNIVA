@@ -1,6 +1,8 @@
 package com.example.valdemar.daaduniva;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,13 +11,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.valdemar.daaduniva.Models.BaseRespond;
+import com.example.valdemar.daaduniva.Generals.WiFi;
 import com.example.valdemar.daaduniva.Services.ApiServices;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okio.ByteString;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    Context context = this;
+
     TextView textViewBotonRegistro;
     Button buttonLogin, buttonRegister;
     EditText editTextMail,editTextPass;
@@ -44,9 +51,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LoginActivity.this.startActivity(intentRegister);
                 break;
             case R.id.buttonLogin:
-                Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                LoginActivity.this.startActivity(intent);
+                if (!check(editTextMail.getText().toString())) {
+                    Toast.makeText(context, "Ingresa un correo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if (!check(editTextPass.getText().toString())) {
+                    Toast.makeText(context, "Ingresa una contraseña.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+                    if (WiFi.connectionWifi(context))
+                        ServerLogin();
+                }
                 /*
                 //NO BORRAR
                 final String correo = editTextMail.getText().toString();
@@ -77,19 +93,47 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void ServerLogin(String email, String password){
+    private boolean check(String text){
+        if (text.equals(""))
+            return false;
+        else
+            return true;
+    }
+
+    private void ServerLogin(){
+
+        final String email = editTextMail.getText().toString();
+        final String password = editTextPass.getText().toString();
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"),
+                "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n" +
+                "Content-Disposition: form-data; name=\"email\"\r\n\r\n"+ email + "\r\n" +
+                "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n" +
+                "Content-Disposition: form-data; name=\"password\"\r\n\r\n"+ password +"\r\n" +
+                        "------WebKitFormBoundary7MA4YWxkTrZu0gW--");
+
         ApiServices.user service = ApiServices.getRetrofitInstance().create(ApiServices.user.class);
-        Call<BaseRespond> call = service.login(email, password);
+        Call<Integer> call = service.login(requestBody);
 
-        call.enqueue(new Callback<BaseRespond>() {
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<BaseRespond> call, retrofit2.Response<BaseRespond> response) {
+            public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
+                if (response.body() == 1){
+                    SharedPreferences preferences;
+                    preferences = getSharedPreferences("cache_univa",0);
+                    preferences.edit().putString("email", email).commit();
 
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    LoginActivity.this.startActivity(intent);
+                }
+                else{
+                    Toast.makeText(context, "Usuario incorrecto.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<BaseRespond>  call, Throwable t) {
-
+            public void onFailure(Call<Integer>  call, Throwable t) {
+                Toast.makeText(context, "Problemas de petición.", Toast.LENGTH_SHORT).show();
             }
         });
     }

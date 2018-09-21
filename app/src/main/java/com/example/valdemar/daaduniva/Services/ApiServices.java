@@ -1,44 +1,40 @@
 package com.example.valdemar.daaduniva.Services;
 
 import com.example.valdemar.daaduniva.Generals.Constantes;
-import com.example.valdemar.daaduniva.Models.BaseRespond;
 import com.example.valdemar.daaduniva.Models.Record;
 
 import java.util.List;
 
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.POST;
 
 public class ApiServices {
     private static Retrofit retrofit;
     private static String URL = Constantes.BASE_URL;
 
     public interface user{
-        @GET("login/")
-        Call<BaseRespond> login(
-                @Query("email") String email,
-                @Query("password") String password
+        @POST("login")
+        Call<Integer> login(
+                @Body RequestBody body
         );
 
-        @GET("register/")
-        Call<BaseRespond> register(
-                @Query("name") String name,
-                @Query("last_name") String last_name,
-                @Query("email") String email,
-                @Query("password") String password
+        @POST("register/")
+        Call<Integer> register(
+                @Body RequestBody body
         );
     }
 
     public interface event{
-        @GET("addRecord/")
-        Call<BaseRespond> addEvent(
-                @Query("event_id") int event_id,
-                @Query("email") String email
+        @POST("addRecord/")
+        Call<Integer> addEvent(
+                @Body RequestBody body
         );
 
         @GET("events/")

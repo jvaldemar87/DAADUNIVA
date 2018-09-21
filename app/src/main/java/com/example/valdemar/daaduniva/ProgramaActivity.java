@@ -1,8 +1,11 @@
 package com.example.valdemar.daaduniva;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +15,10 @@ import android.widget.Toast;
 
 import com.example.valdemar.daaduniva.Adapter.AdapterPrograma;
 import com.example.valdemar.daaduniva.Fragment.Programa;
+import com.example.valdemar.daaduniva.Generals.WiFi;
 import com.example.valdemar.daaduniva.Models.ItemPrograma;
 import com.example.valdemar.daaduniva.Models.ItemViewFragment;
+import com.example.valdemar.daaduniva.Services.ApiServices;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,6 +26,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ProgramaActivity extends AppCompatActivity implements AdapterPrograma.OnClick{
     Context context = this;
@@ -57,10 +67,8 @@ public class ProgramaActivity extends AppCompatActivity implements AdapterProgra
         String strDate = sdf.format(cal.getTime());
         switch (view.getId()) {
             case R.id.linearFecha:
-                Toast.makeText(context, "onClickAgendar: " +strDate, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.name_event_id:
-                Toast.makeText(context, "onClickAgendar2222: " +strDate, Toast.LENGTH_SHORT).show();
                 break;
         }
 
@@ -69,25 +77,39 @@ public class ProgramaActivity extends AppCompatActivity implements AdapterProgra
     public void onClickDescribe(View view){
         switch (view.getId()) {
             case R.id.descrip_event_id:
-                Toast.makeText(context, "onClickDescribe", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
     @Override
-    public void OnCLickPrograma(ItemPrograma item, int position) {
-        setEvent(item);
+    public void OnCLickPrograma(final ItemPrograma item, int position) {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(context);
+        builder.setTitle("¡ALERTA!")
+                .setMessage("¿Estas seguro que deseas agendar el programa?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (WiFi.connectionWifi(context))
+                            Server(item);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
     }
 
     public void OnclickDescipcion(ItemPrograma item, int position){
         getDocument(item);
-
-
     }
 
     private void getDocument(ItemPrograma item) {
         //item.getId();
-        Toast.makeText(context, "funcion para descargar PDF: "+item.getId(), Toast.LENGTH_SHORT).show();
 
         Uri uri = Uri.parse(item.getPdf());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -115,8 +137,37 @@ public class ProgramaActivity extends AppCompatActivity implements AdapterProgra
             startActivity(intent);
         } catch (ParseException e) {
             e.printStackTrace();
-            Toast.makeText(context, "No se puede comñlatar la acción.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No se puede completar la acción.", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void Server(final ItemPrograma item){
+        SharedPreferences preferences;
+        preferences = getSharedPreferences("cache_univa",0);
+        String email = preferences.getString("email","");
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW"),
+                "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n" +
+                        "Content-Disposition: form-data; name=\"event_id\"\r\n\r\n"+item.getId()+"\r\n" +
+                        "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n" +
+                        "Content-Disposition: form-data; name=\"email\"\r\n\r\n"+ email +"\r\n" +
+                        "------WebKitFormBoundary7MA4YWxkTrZu0gW--");
+
+
+        ApiServices.event service = ApiServices.getRetrofitInstance().create(ApiServices.event.class);
+        Call<Integer> call = service.addEvent(requestBody);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, retrofit2.Response<Integer> response) {
+                setEvent(item);
+            }
+
+            @Override
+            public void onFailure(Call<Integer>  call, Throwable t) {
+                Toast.makeText(context, "Problemas de petición.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

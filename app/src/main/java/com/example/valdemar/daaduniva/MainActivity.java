@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.valdemar.daaduniva.Fragment.Programa;
 import com.example.valdemar.daaduniva.Models.ItemViewFragment;
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.button_programa:
-                Toast.makeText(context, "abrir fragment", Toast.LENGTH_SHORT).show();
                 /*Programa programa = new Programa();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.fragment_programa,programa).commit();*/
